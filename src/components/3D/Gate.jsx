@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useRef } from "react";
-import { useGLTF } from "@react-three/drei";
+import { useGLTF, useEnvironment } from "@react-three/drei";
+import * as THREE from 'three'
 
 const Gate = ({ designType, doorWidth }) => {
   const gateRef = useRef();
@@ -8,6 +9,9 @@ const Gate = ({ designType, doorWidth }) => {
   const gateDesign2 = useGLTF("/assets/models/gate-2.glb");
   const gateDesign3 = useGLTF("/assets/models/gate-3.glb");
   const gateDesign4 = useGLTF("/assets/models/gate-4.glb");
+
+   // Load environment map for reflections
+   const envMap = useEnvironment({ files: '/assets/envmap/venice_sunset_1k.hdr' });
 
   // Map design types to models
   const gateModels = {
@@ -27,6 +31,89 @@ const Gate = ({ designType, doorWidth }) => {
 
       // Add the selected gate design
       const selectedGate = gateModels[designType].clone();
+      
+      // Apply reflective materials to all meshes
+      selectedGate.traverse((child) => {
+        if (child.isMesh && child.material) {
+          // Special handling for gate-2 glass parts
+          if (designType === "design2") {
+            if (child.name.includes("glass") || 
+                (child.material.name && child.material.name.includes("glass")) || 
+                child.material.transparent) {
+              
+              // Handle material arrays
+              if (Array.isArray(child.material)) {
+                child.material = child.material.map(mat => {
+                  // Create a new material while preserving textures
+                  const newMat = new THREE.MeshPhysicalMaterial({
+                    map: mat.map,
+                    normalMap: mat.normalMap,
+                    roughnessMap: mat.roughnessMap,
+                    metalnessMap: mat.metalnessMap,
+                    alphaMap: mat.alphaMap,
+                    envMap: envMap,
+                    transparent: true,
+                    opacity: 0.8,
+                    side: THREE.DoubleSide,
+                    depthWrite: false,
+                    metalness: 0.2,
+                    roughness: 0.1,
+                    envMapIntensity: 0.8,
+                    transmission: 0.9, // For glass-like material
+                    clearcoat: 1.0     // Add a clear coat for more realistic glass
+                  });
+                  return newMat;
+                });
+              } else {
+                // Clone the original material to preserve properties
+                const originalMat = child.material;
+                child.material = new THREE.MeshPhysicalMaterial({
+                  map: originalMat.map,
+                  normalMap: originalMat.normalMap,
+                  roughnessMap: originalMat.roughnessMap,
+                  metalnessMap: originalMat.metalnessMap,
+                  alphaMap: originalMat.alphaMap,
+                  envMap: envMap,
+                  transparent: true,
+                  opacity: 0.8,
+                  side: THREE.DoubleSide,
+                  depthWrite: false,
+                  metalness: 0.2,
+                  roughness: 0.1,
+                  envMapIntensity: 0.8,
+                  transmission: 0.9, // For glass-like material
+                  clearcoat: 1.0     // Add a clear coat for more realistic glass
+                });
+              }
+              
+              // Fix UV mapping if needed
+              if (child.geometry) {
+                child.geometry.attributes.uv.needsUpdate = true;
+              }
+            }
+          } else {
+            // Handle material arrays for non-gate-2 or non-glass parts
+            if (Array.isArray(child.material)) {
+              child.material.forEach(mat => {
+                // Add reflections
+                mat.envMap = envMap;
+                mat.envMapIntensity = 0.6; 
+                mat.metalness = 0.7;
+                mat.roughness = 0;
+                mat.needsUpdate = true;
+              });
+            } else {
+              // Handle single material for non-glass parts
+              child.material.envMap = envMap;
+              child.material.envMapIntensity = 0.6;
+              child.material.metalness = 0.2;
+              child.material.roughness = 0.3;
+              child.material.needsUpdate = true;
+            }
+          }
+        }
+      });
+      
       gateRef.current.add(selectedGate);
 
       // Scale the gate based on door width
@@ -41,7 +128,7 @@ const Gate = ({ designType, doorWidth }) => {
       // Apply scaling only to the X-axis
       gateRef.current.scale.set(scaleX, originalScaleY, originalScaleZ);
     }
-  }, [designType, doorWidth]);
+  }, [designType, doorWidth, envMap]);
 
   return <group ref={gateRef} position={[0, 0, 0]} castShadow />;
 };

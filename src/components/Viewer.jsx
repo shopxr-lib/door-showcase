@@ -12,8 +12,6 @@ const Viewer = ({ dimensionsVisible, showHouse }) => {
   // Adjust camera position based on the door width
   useEffect(() => {
     const doorWidth = parseInt(config.doorWidth);
-    // Adjust camera position based on door width - move back for wider doors
-
     camera.position.z = 4;
   }, [config.doorWidth, camera]);
 
@@ -22,13 +20,13 @@ const Viewer = ({ dimensionsVisible, showHouse }) => {
       {/* Scene lighting */}
       <ambientLight intensity={0.5} />
       <directionalLight
-        position={[10, 10, 5]}
+        position={[0.8, 0, 1.5]}
         intensity={1}
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
       />
-      <Environment preset="city" />
+      <Environment preset="city" files="/assets/envmap/venice_sunset_1k.hdr" background={false} blur={1} />
 
       {/* House model (optional) */}
       {showHouse && <House doorWidth={config.doorWidth} />}

@@ -12,12 +12,14 @@ const CustomizationDrawer = ({ isOpen, onClose }) => {
       label: "91 cm",
       price: PRICES.doorWidth["91"],
       img: "/thumbnails/width_91.png",
+      desc: "W:91 x H:213 cm"
     },
     {
       id: "123",
       label: "123 cm",
       price: PRICES.doorWidth["123"],
       img: "/thumbnails/width_123.png",
+      desc: "W:123 x H:213 cm"
     },
   ];
 
@@ -27,24 +29,28 @@ const CustomizationDrawer = ({ isOpen, onClose }) => {
       label: "Design 1",
       price: PRICES.gateDesign.design1,
       img: "/assets/images/Gate/Gate 1 - Icon.png",
+      desc: "H:213 cm"
     },
     {
       id: "design2",
       label: "Design 2",
       price: PRICES.gateDesign.design2,
       img: "/assets/images/Gate/Gate 2 - Icon.png",
+      desc: "H:213 cm"
     },
     {
       id: "design3",
       label: "Design 3",
       price: PRICES.gateDesign.design3,
       img: "/assets/images/Gate/Gate 3 - Icon.png",
+      desc: "H:213 cm"
     },
     {
       id: "design4",
       label: "Design 4",
       price: PRICES.gateDesign.design4,
       img: "/assets/images/Gate/Gate 4 - Icon.png",
+      desc: "H:213 cm"
     },
   ];
 
@@ -54,18 +60,21 @@ const CustomizationDrawer = ({ isOpen, onClose }) => {
       label: "Lock 1",
       price: PRICES.doorLockDesign.lock1,
       img: "/assets/images/DoorLock/Door Lock 1 - Icon.png",
+      desc: "W:7.45 x H:40 x D:6.1 cm"
     },
     {
       id: "lock2",
       label: "Lock 2",
       price: PRICES.doorLockDesign.lock2,
       img: "/assets/images/DoorLock/Door Lock 2 - Icon.png",
+      desc: "W:8.0 x H:38.9 x D:6.53 cm"
     },
     {
       id: "lock3",
       label: "Lock 3",
       price: PRICES.doorLockDesign.lock3,
       img: "/assets/images/DoorLock/Door Lock 3 - Icon.png",
+      desc: "W:7.7 x H:37.5 x D:2.36 cm"
     },
   ];
 

@@ -36,10 +36,12 @@ function App() {
               />
             </Suspense>
             <OrbitControls
-              minDistance={2}
+              minDistance={0.8}
               maxDistance={10}
-              minPolarAngle={0.1}
+              minPolarAngle={0.5}
               maxPolarAngle={Math.PI / 2 - 0.1}
+              minAzimuthAngle={-Math.PI / 3}
+              maxAzimuthAngle={Math.PI / 3}
               enablePan={false}
             />
           </Canvas>

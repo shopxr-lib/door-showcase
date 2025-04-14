@@ -8,17 +8,28 @@ const CartDrawer = ({ isOpen, onToggle }) => {
   // Get the display names for the current configuration
   const getDisplayName = (type, id) => {
     const displayMap = {
-      doorWidth: { 91: "91 cm", 123: "123 cm" },
+      doorWidth: { 91: "W:91 x H:213 cm", 123: "W:123 x H:213 cm" },
       gateDesign: {
         design1: "Gate Design 1",
         design2: "Gate Design 2",
         design3: "Gate Design 3",
         design4: "Gate Design 4",
       },
+      gateDimensions: {
+        design1: `W:${config.doorWidth} x H:213 cm`,
+        design2: `W:${config.doorWidth} x H:213 cm`,
+        design3: `W:${config.doorWidth} x H:213 cm`,
+        design4: `W:${config.doorWidth} x H:213 cm`,
+      },
       doorLockDesign: {
         lock1: "Door Lock Design 1",
         lock2: "Door Lock Design 2",
         lock3: "Door Lock Design 3",
+      },
+      doorLockDimensions: {
+        lock1: "W:7.45 x H:40 x D:6.1 cm",
+        lock2: "W:8.0 x H:38.9 x D:6.53 cm",
+        lock3: "W:7.7 x H:37.5 x D:2.36 cm",
       },
       doorMaterial: {
         stone1: "Stone Texture 1",
@@ -92,7 +103,7 @@ const CartDrawer = ({ isOpen, onToggle }) => {
           {/* Door Width */}
           <div className="flex justify-between items-center mb-2">
             <div>
-              <p className="font-medium">Door Width</p>
+              <p className="font-medium">Door Dimensions</p>
               <p className="text-sm text-gray-500">
                 {getDisplayName("doorWidth", config.doorWidth)}
               </p>
@@ -107,6 +118,9 @@ const CartDrawer = ({ isOpen, onToggle }) => {
               <p className="text-sm text-gray-500">
                 {getDisplayName("gateDesign", config.gateDesign)}
               </p>
+              <p className="text-sm text-gray-500">
+                {getDisplayName("gateDimensions", config.gateDesign)}
+              </p>
             </div>
             <p className="font-medium">
               ${PRICES.gateDesign[config.gateDesign]}
@@ -119,6 +133,9 @@ const CartDrawer = ({ isOpen, onToggle }) => {
               <p className="font-medium">Door Lock</p>
               <p className="text-sm text-gray-500">
                 {getDisplayName("doorLockDesign", config.doorLockDesign)}
+              </p>
+              <p className="text-sm text-gray-500">
+                {getDisplayName("doorLockDimensions", config.doorLockDesign)}
               </p>
             </div>
             <p className="font-medium">
