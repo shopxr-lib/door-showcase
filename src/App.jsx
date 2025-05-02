@@ -22,8 +22,8 @@ function App() {
 
   return (
     <ConfigProvider>
-      <div className="app-container bg-gray-300 h-screen w-screen overflow-hidden relative">
-        <div className="canvas-container w-full h-full">
+      <div className="app-container bg-gray-300">
+        <div className="canvas-container ">
           <Canvas
             shadows
             camera={{ position: [0, 1, 4], fov: 50 }}

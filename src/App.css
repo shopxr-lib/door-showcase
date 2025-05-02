@@ -5,14 +5,18 @@ body {
 }
 
 .app-container {
-  position: relative;
+  /* position: relative; */
+  display: flex;
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
   background-color: #e0e0e0;
+  overflow: hidden;
 }
 
 .canvas-container {
   position: absolute;
+  flex: 1;
   top: 0;
   left: 0;
   width: 100%;
@@ -64,4 +68,10 @@ body {
 
 .fade-in {
   animation: fadeIn 0.3s ease-in;
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    height: 100vh; /* Ensure it takes full viewport height on mobile */
+  }
 }
